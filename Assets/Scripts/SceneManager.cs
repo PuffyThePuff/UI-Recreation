@@ -6,13 +6,25 @@ public class SceneManager : MonoBehaviour
     
     public static SceneManager Instance { get { return _sharedInstance; } }
 
-    void Awake()
+    private void Awake()
     {
-        _sharedInstance = this;
+        if (_sharedInstance == null)
+        {
+            _sharedInstance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
-    public void LoadSceneAsync(string sceneName)
+    private void Start()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 }
