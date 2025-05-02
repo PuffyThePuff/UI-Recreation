@@ -17,21 +17,32 @@ public class HorizontalScroll : MonoBehaviour
     
     private float _gridItemSize;
     private int _gridIndex = 0;
-    private int _gridCount;
+    private int _gridMaxIndex = 1;
     
     // states
     private ScrollStates _scrollState = ScrollStates.Idle;
     
     private void Start()
     {
-        _gridCount = gameObject.transform.childCount;
+        _gridMaxIndex = gameObject.transform.childCount - 1;
 
         if (horizontalGrid != null)
         {
             _gridItemSize = horizontalGrid.rect.width + gameObject.GetComponent<HorizontalLayoutGroup>().spacing;
         }
-        
-        MoveBy(-1);
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        {
+            MoveBy(1);
+        }
+
+        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        {
+            MoveBy(-1);
+        }
     }
 
     public void ScrollPress(InputAction.CallbackContext context)
@@ -58,8 +69,22 @@ public class HorizontalScroll : MonoBehaviour
     // +units moves to the left
     private void MoveBy(int units)
     {
+        if (units == 0) return;
+        
+        _gridIndex -= units;
+        
+        // snap to other side
+        if (_gridIndex < 0)
+        {
+            _gridIndex = _gridMaxIndex + _gridIndex + 1;
+        }
+        if (_gridIndex > _gridMaxIndex)
+        {
+            _gridIndex = _gridIndex - _gridMaxIndex - 1;
+        }
+        
         var vector2 = horizontalGrid.anchoredPosition;
-        vector2.x = vector2.x + units * _gridItemSize;
+        vector2.x = -_gridIndex * _gridItemSize;
         horizontalGrid.anchoredPosition = vector2;
     }
 }
