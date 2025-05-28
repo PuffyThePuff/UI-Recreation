@@ -33,9 +33,9 @@ public class Editor_EchoObjectMaker : MonoBehaviour
     {
         foreach (var sprite in sprites)
         {
-            GameObject echo = Instantiate(prefab, listTransform);
-            Editor_EchoConstructor newEchoConstructor = echo.GetComponent<Editor_EchoConstructor>();
-            newEchoConstructor.Initialize(sprite);
+            GameObject echoObject = Instantiate(prefab, listTransform);
+            Echo newEchoComponent = echoObject.GetComponent<Echo>();
+            newEchoComponent.Initialize(sprite);
         }
     }
 }

@@ -1,8 +1,8 @@
+using DG.Tweening;
+using MyBox;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 enum ScrollStates
@@ -17,10 +17,15 @@ public class HorizontalScroll : MonoBehaviour
 {
     [SerializeField] private RectTransform horizontalGrid;
     [SerializeField] private TMP_Text labelText;
+
+    [SerializeField] private float tweenDuration = 0.4f;
     
     private float _gridItemSize;
     private int _gridIndex = 0;
     private int _gridMaxIndex = 1;
+
+    private Transform _currentSelectedEcho;
+    private Transform _previousSelectedEcho;
     
     // states
     private ScrollStates _scrollState = ScrollStates.Idle;
@@ -35,6 +40,7 @@ public class HorizontalScroll : MonoBehaviour
         }
         
         labelText.text = horizontalGrid.GetChild(_gridIndex).name;
+        horizontalGrid.GetChild(_gridIndex).GetComponent<Echo>().SwitchHighlightFast();
     }
 
     private void Update()
@@ -76,6 +82,9 @@ public class HorizontalScroll : MonoBehaviour
     {
         if (units == 0) return;
         
+        // TODO: get these selections out of this function, may be useful later
+        _previousSelectedEcho = horizontalGrid.GetChild(_gridIndex);
+        
         _gridIndex -= units;
         
         // snap to other side
@@ -88,12 +97,18 @@ public class HorizontalScroll : MonoBehaviour
             _gridIndex = _gridIndex - _gridMaxIndex - 1;
         }
         
+        _currentSelectedEcho = horizontalGrid.GetChild(_gridIndex);
+        
         // move grid
         var vector2 = horizontalGrid.anchoredPosition;
         vector2.x = -_gridIndex * _gridItemSize;
-        horizontalGrid.anchoredPosition = vector2;
+        horizontalGrid.DOAnchorPos(vector2, tweenDuration);
         
         // change name label by getting child name
-        labelText.text = horizontalGrid.GetChild(_gridIndex).name;
+        labelText.text = _currentSelectedEcho.name;
+        
+        // switch highlight
+        _previousSelectedEcho.GetComponent<Echo>().SwitchHighlight();
+        _currentSelectedEcho.GetComponent<Echo>().SwitchHighlight();
     }
 }
