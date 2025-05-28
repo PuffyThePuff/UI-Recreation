@@ -1,3 +1,5 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -14,6 +16,7 @@ enum ScrollStates
 public class HorizontalScroll : MonoBehaviour
 {
     [SerializeField] private RectTransform horizontalGrid;
+    [SerializeField] private TMP_Text labelText;
     
     private float _gridItemSize;
     private int _gridIndex = 0;
@@ -30,6 +33,8 @@ public class HorizontalScroll : MonoBehaviour
         {
             _gridItemSize = horizontalGrid.rect.width + gameObject.GetComponent<HorizontalLayoutGroup>().spacing;
         }
+        
+        labelText.text = horizontalGrid.GetChild(_gridIndex).name;
     }
 
     private void Update()
@@ -83,8 +88,12 @@ public class HorizontalScroll : MonoBehaviour
             _gridIndex = _gridIndex - _gridMaxIndex - 1;
         }
         
+        // move grid
         var vector2 = horizontalGrid.anchoredPosition;
         vector2.x = -_gridIndex * _gridItemSize;
         horizontalGrid.anchoredPosition = vector2;
+        
+        // change name label by getting child name
+        labelText.text = horizontalGrid.GetChild(_gridIndex).name;
     }
 }
