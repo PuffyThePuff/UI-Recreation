@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 397f4807ab5c4a94e88eb030ebdbe546, type: 3}
+  m_Name: UI_SFX_EchoesScroll
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 9d983e6c2bfc5124f9be83d1a192ea46, type: 3}
+  volume: {x: 0.5, y: 0.5}
+  pitch: {x: 1, y: 1}
+  playIndex: 0
+  playOrder: 0

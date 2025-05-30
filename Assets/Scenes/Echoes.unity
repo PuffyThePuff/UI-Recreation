@@ -4212,6 +4212,7 @@ MonoBehaviour:
   horizontalGrid: {fileID: 238479580}
   labelText: {fileID: 1955669779}
   tweenDuration: 0.4
+  scrollSFX: {fileID: 11400000, guid: 902d143607ecb12468cbbff3a6ceba63, type: 2}
 --- !u!1 &239455460
 GameObject:
   m_ObjectHideFlags: 0

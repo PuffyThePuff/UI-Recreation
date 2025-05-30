@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using MyBox;
 using TMPro;
@@ -19,6 +20,8 @@ public class HorizontalScroll : MonoBehaviour
     [SerializeField] private TMP_Text labelText;
 
     [SerializeField] private float tweenDuration = 0.4f;
+    
+    [SerializeField] private SoundEffect scrollSFX;
     
     private float _gridItemSize;
     private int _gridIndex = 0;
@@ -110,5 +113,18 @@ public class HorizontalScroll : MonoBehaviour
         // switch highlight
         _previousSelectedEcho.GetComponent<Echo>().SwitchHighlight();
         _currentSelectedEcho.GetComponent<Echo>().SwitchHighlight();
+        
+        // play sfx
+        PlaySFX();
+    }
+
+    private void PlaySFX()
+    {
+        if (scrollSFX == null)
+        {
+            return;
+        }
+        
+        scrollSFX.Play();
     }
 }
